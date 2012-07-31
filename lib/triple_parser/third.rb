@@ -35,10 +35,35 @@ module TripleParser
 
       elsif /^\?/ =~ self
         get_complex_type_variable
-
+        
+      elsif constant_text_pattern =~ self
+        get_constant
+        
+      elsif modifier_pattern =~ self
+        get_modifier
+        
       else
         get_parts_for_simple_string
       end
+    end
+    
+    def modifier_pattern
+      /^([a-z]+|[a-z]+_[a-z]+)$/
+    end
+    
+    def get_modifier
+      simple_rdf!
+      modifier = self.gsub(/_is/, "").gsub(/has_/, "")
+      {:type => modifier}
+    end
+    
+    def constant_text_pattern
+      /^[A-Z][a-z][A-Za-z]*$/
+    end
+    
+    def get_constant
+      simple_rdf!
+      {:type => camelcase(self)}
     end
 
     def function_pattern

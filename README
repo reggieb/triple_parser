@@ -1,3 +1,4 @@
-== triple_parser
+Triple parser
+=============
 
-You should document your project here.
+Converts text containing RDF triples between simple and complex versions

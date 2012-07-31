@@ -44,9 +44,33 @@ class ThirdTest < Test::Unit::TestCase
     assert_equal('simple', third.rdf_style)
   end
   
-  def test_type_and_value_with_simple_string
+  def test_object_type
+    third = TripleParser::Third.new('SomeType')
+    assert_equal('some_type', third.type)
+    assert_nil(third.value, "Value should be nil")
+    assert_equal('simple', third.rdf_style)
+    assert_nil(third.url, "url should be nil")   
+  end
+  
+  def test_lowercase_string
     simple_text = "something"
     third = TripleParser::Third.new(simple_text)
+    assert_equal(simple_text, third.type)
+    assert_nil(third.value, "Value should return nil")
+    assert_equal('simple', third.rdf_style)
+  end
+  
+  def test_modifier
+    simple_text = "something_is"
+    third = TripleParser::Third.new(simple_text)
+    assert_equal('something', third.type)
+    assert_nil(third.value, "Value should return nil")
+    assert_equal('simple', third.rdf_style)
+  end
+  
+  def test_with_unknown_input
+    unknown = "5admName"
+    third = TripleParser::Third.new(unknown)
     assert_nil(third.type, "Type should return nil")
     assert_nil(third.value, "Value should return nil")
     assert_equal('unknown', third.rdf_style)
