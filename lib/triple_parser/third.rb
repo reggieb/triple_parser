@@ -48,7 +48,7 @@ module TripleParser
     end
     
     def modifier_pattern
-      /^([a-z]+|[a-z]+_[a-z]+)$/
+      /^([a-z]+(_[a-z]+)*)$/
     end
     
     def get_modifier
@@ -85,7 +85,15 @@ module TripleParser
       i = index(':')
       before_colon = self[0, (i)]
       after_colon = self[i + 1..length]
-      {:type => before_colon, :value => after_colon}
+      {:type => before_colon, :value => remove_bracketing_quotes(after_colon)}
+    end
+    
+    def remove_bracketing_quotes(text)
+      if /^'.+'$/ =~ text || /^".+"$/ =~ text
+        return text.gsub(/^['"]/, "").gsub(/['"]$/, "")
+      else
+        return text
+      end
     end
 
     def get_parts_for_simple_string
@@ -122,7 +130,7 @@ module TripleParser
     end
 
     def get_type_from_bracketed_url
-      type_match = match(/\#([a-zA-Z]+)/)
+      type_match = match(/\#([a-zA-Z]+)/) || match(/\/([a-zA-Z]+)\>/)
       if type_match
         type = type_match[1]
         camelcase(type)

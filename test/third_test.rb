@@ -29,7 +29,7 @@ class ThirdTest < Test::Unit::TestCase
   end
   
   def test_date_time
-    third = TripleParser::Third.new('date_time:2010-02-17T12:00:00Z')
+    third = TripleParser::Third.new("date_time:'2010-02-17T12:00:00Z'")
     assert_equal('date_time', third.type)
     assert_equal('2010-02-17T12:00:00Z', third.value)
     assert_equal('simple', third.rdf_style)
@@ -80,7 +80,7 @@ class ThirdTest < Test::Unit::TestCase
     url = 'http://www.bbc.co.uk/ontologies/domain/name'
     bracketed_url = "<#{url}>"
     third = TripleParser::Third.new(bracketed_url)
-    assert_nil(third.type, "Type should return nil")
+    assert_equal('name', third.type)
     assert_nil(third.value, "Value should be nil")
     assert_equal('bracketed_url', third.rdf_style)
     assert_equal(url, third.url)
@@ -137,4 +137,5 @@ class ThirdTest < Test::Unit::TestCase
     assert_equal('bracketed_url', third.rdf_style)
   end
   
+ 
 end

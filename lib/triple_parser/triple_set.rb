@@ -58,7 +58,7 @@ module TripleParser
 
     def pattern_to_split_simple_triple
       basic_text_input = '[\w\:-]*'
-      optional_text_with_string = %q{(?:['][\w\s]*['])?}
+      optional_text_with_string = %q{(?:["'][\w\s\-:]*["'])?}
       optional_function_arguments = '(?:\(.*\))?'
 
       text = ['(', basic_text_input, optional_text_with_string, optional_function_arguments, ')']

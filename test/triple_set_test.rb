@@ -58,6 +58,13 @@ class TripleSetTest < Test::Unit::TestCase
     assert_equal('<http://purl.org/NET/c4dm/event.owl#Event>', t.object)    
   end
   
+  def test_simple_date_time
+    t = TripleParser::TripleSet.new("id:0237eb08-e4a5-463c-baaa-5a28f2b63707 begins_at_date_time date_time:'2010-02-15T12:00:00Z'")
+    assert_equal('begins_at_date_time', t.predicate.type)
+    assert_equal('date_time', t.object.type)
+    assert_equal('2010-02-15T12:00:00Z', t.object.value)
+  end
+  
   private
   def triple_set(input = nil)
     input ||= @parts
