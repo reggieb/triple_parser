@@ -65,6 +65,14 @@ class TripleSetTest < Test::Unit::TestCase
     assert_equal('2010-02-15T12:00:00Z', t.object.value)
   end
   
+  def test_location
+    t = TripleParser::TripleSet.new('<http://dbpedia.org/resource/United_Kingdom> geo-pos:lat ?Latitude .')
+
+    assert_equal('<http://dbpedia.org/resource/United_Kingdom>', t.subject)
+    assert_equal('geo-pos:lat', t.predicate)
+    assert_equal('?Latitude', t.object)  
+  end
+  
   private
   def triple_set(input = nil)
     input ||= @parts

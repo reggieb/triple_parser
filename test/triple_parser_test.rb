@@ -43,6 +43,21 @@ EOF
     assert_first_last_match(@triples)
   end
 
+  def test_place
+    load_triples <<EOF
+id:9108fe02-0bbb-4ed9-890f-b454877ce12c place_is resource:United_Kingdom
+<http://www.bbc.co.uk/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://purl.org/NET/c4dm/event.owl#place> <http://dbpedia.org/resource/United_Kingdom>.
+EOF
+    assert_first_last_match(@triples)
+  end
+  
+  def test_latitude
+    load_triples <<EOF
+resource:United_Kingdom geo-pos:lat var:Latitude  
+<http://dbpedia.org/resource/United_Kingdom> geo-pos:lat ?Latitude .
+EOF
+    assert_first_last_match(@triples)
+  end
     
   def load_triples(input_text)
     TripleParser.input(input_text)

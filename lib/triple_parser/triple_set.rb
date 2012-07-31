@@ -41,11 +41,10 @@ module TripleParser
     end
 
     def rdf_pattern
-      /\<.+\>\s+<.+\>/
+      /\<.+\>[\.\s]/
     end
 
     def pattern_to_split_bracketed_url_rdf
-      /((?:\".+\"\^\^)?(?:<.*>|[\w\?\-:]+))\s+((?:\".+\"\^\^)?(?:<.*>|[\w\?\-:]+))\s+((?:\".+\"\^\^)?(?:<.*>|[\w\?\-:]+))/
       standard_rdf_element_or_text = '(?:<.*>|[\w\?\-:]+)'
       optional_input = '(?:\".+\"\^\^)?'
 

@@ -137,5 +137,19 @@ class ThirdTest < Test::Unit::TestCase
     assert_equal('bracketed_url', third.rdf_style)
   end
   
- 
+  def test_resource_from_complex_type
+    bracketed_url = "<http://dbpedia.org/resource/United_Kingdom>"
+    third = TripleParser::Third.new(bracketed_url)
+    assert_equal('resource', third.type)
+    assert_equal('United_Kingdom', third.value)
+    assert_equal('bracketed_url', third.rdf_style)
+  end
+  
+  def test_latitude
+    text = 'geo-pos:lat'
+    third = TripleParser::Third.new(text)
+    assert_equal('geo-pos', third.type)
+    assert_equal('lat', third.value)
+    assert_equal('simple', third.rdf_style)
+  end
 end

@@ -130,17 +130,26 @@ module TripleParser
     end
 
     def get_type_from_bracketed_url
-      type_match = match(/\#([a-zA-Z]+)/) || match(/\/([a-zA-Z]+)\>/)
+      after_hash_pattern = /\#([a-zA-Z]+)/ 
+      resource_url_pattern = /(resource)\/[a-zA-Z_]+\>/
+      type_match = match(after_hash_pattern) || match(resource_url_pattern) || match(last_element_of_url_pattern)
       if type_match
         type = type_match[1]
         camelcase(type)
       end
+    end
+    
+    def last_element_of_url_pattern 
+      /\/([a-zA-Z_]+)\>/
     end
 
     def get_value_from_bracketed_url
       if type_from_bracketed_url == 'id'
         text_before_hash_pattern = /([\w\-\._]*)\#/
         return match(text_before_hash_pattern)[1]
+      end
+      if type_from_bracketed_url == 'resource'
+        return match(last_element_of_url_pattern)[1]
       end
       value_match = match(/^\"(.*)\"/)
       if value_match
