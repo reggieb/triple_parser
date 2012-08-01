@@ -41,12 +41,12 @@ class TripleSetTest < Test::Unit::TestCase
   end
   
   def test_with_function
-    t = TripleParser::TripleSet.new('var:location nearby(var:Latitude, var:Longitude, "5km")')
+    t = TripleParser::TripleSet.new('?location omgeo:nearby(?Latitude, ?Longitude, "5km")')
     assert_equal('var', t.subject.type)
     assert_equal('location', t.subject.value)
     assert_equal('function', t.predicate.type)
-    assert_equal('nearby', t.predicate.value)
-    arguments = [TripleParser::Third.new('var:Latitude'), TripleParser::Third.new('var:Longitude'), TripleParser::Third.new('"5km"')]
+    assert_equal('omgeo:nearby', t.predicate.value)
+    arguments = [TripleParser::Third.new('?Latitude'), TripleParser::Third.new('?Longitude'), TripleParser::Third.new('"5km"')]
     assert_equal(arguments, t.predicate.arguments)
     assert_nil(t.object)
   end
@@ -66,11 +66,30 @@ class TripleSetTest < Test::Unit::TestCase
   end
   
   def test_location
+    t = TripleParser::TripleSet.new('resource:United_Kingdom geo-pos:lat ?Latitude ')
+
+    assert_equal('resource:United_Kingdom', t.subject)
+    assert_equal('geo-pos:lat', t.predicate)
+    assert_equal('?Latitude', t.object)  
+  end
+  
+  def test_bracketed_url_style_location
     t = TripleParser::TripleSet.new('<http://dbpedia.org/resource/United_Kingdom> geo-pos:lat ?Latitude .')
 
     assert_equal('<http://dbpedia.org/resource/United_Kingdom>', t.subject)
     assert_equal('geo-pos:lat', t.predicate)
     assert_equal('?Latitude', t.object)  
+  end
+  
+  def test_bracketed_url_style_function
+    t = TripleParser::TripleSet.new('?location omgeo:nearby(?Latitude ?Longitude "5km") .')
+    assert_equal('var', t.subject.type)
+    assert_equal('location', t.subject.value)
+    assert_equal('function', t.predicate.type)
+    assert_equal('omgeo:nearby', t.predicate.value)
+    arguments = [TripleParser::Third.new('?Latitude'), TripleParser::Third.new('?Longitude'), TripleParser::Third.new('"5km"')]
+    assert_equal(arguments, t.predicate.arguments)
+    assert_nil(t.object)
   end
   
   private

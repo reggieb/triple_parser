@@ -67,7 +67,7 @@ module TripleParser
     end
 
     def function_pattern
-      /^[\w_]+\(.+\)/
+      /^[\w_:]+\(.+\)/
     end
 
     def get_parts_for_function

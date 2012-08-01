@@ -53,8 +53,16 @@ EOF
   
   def test_latitude
     load_triples <<EOF
-resource:United_Kingdom geo-pos:lat var:Latitude  
+resource:United_Kingdom geo-pos:lat ?Latitude  
 <http://dbpedia.org/resource/United_Kingdom> geo-pos:lat ?Latitude .
+EOF
+    assert_first_last_match(@triples)
+  end
+  
+  def test_function
+    load_triples <<EOF
+?location omgeo:nearby(?Latitude, ?Longitude, "5km")   
+?location omgeo:nearby(?Latitude ?Longitude "5km") . 
 EOF
     assert_first_last_match(@triples)
   end
@@ -71,11 +79,15 @@ EOF
     
     for third in thirds
       for method in third_methods
-        assert_equal(
-          triples.first.send(third).send(method), 
-          triples.last.send(third).send(method), 
-          "first.#{third}.#{method} should match last.#{third}.#{method}"
-        )
+        if triples.first.send(third)
+          assert_equal(
+            triples.first.send(third).send(method), 
+            triples.last.send(third).send(method), 
+            "first.#{third}.#{method} should match last.#{third}.#{method}"
+          )
+        else
+          assert_equal(triples.first.send(third), triples.last.send(third))
+        end
       end
     end
     

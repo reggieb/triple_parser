@@ -36,10 +36,10 @@ class ThirdTest < Test::Unit::TestCase
   end
   
   def test_function
-    third = TripleParser::Third.new('nearby(var:Latitude, var:Longitude, "5km")')
+    third = TripleParser::Third.new('omgeo:nearby(?Latitude, ?Longitude, "5km")')
     assert_equal('function', third.type)
-    assert_equal('nearby', third.value)
-    arguments = [TripleParser::Third.new('var:Latitude'), TripleParser::Third.new('var:Longitude'), TripleParser::Third.new('"5km"')]
+    assert_equal('omgeo:nearby', third.value)
+    arguments = [TripleParser::Third.new('?Latitude'), TripleParser::Third.new('?Longitude'), TripleParser::Third.new('"5km"')]
     assert_equal(arguments, third.arguments)
     assert_equal('simple', third.rdf_style)
   end
