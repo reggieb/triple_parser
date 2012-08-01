@@ -32,7 +32,7 @@ module TripleParser
     end
     
     def unknown_type
-      "<http://purl.org/NET/c4dm/event.owl##{camelcase(@third.type)}>"
+      "#{third_type}:#{@third.value}"
     end
     
     def date_time
@@ -40,7 +40,11 @@ module TripleParser
     end
     
     def third_type
-      @third.type.to_sym if @third.type
+      @third_type ||= @third.type.to_sym if @third.type
+    end
+    
+    def domain
+      "<http://www.bbc.co.uk/ontologies/domain/name>"
     end
     
     def camelcase(text)
