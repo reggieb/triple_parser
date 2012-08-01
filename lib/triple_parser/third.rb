@@ -34,38 +34,16 @@ module TripleParser
         get_parts_for_type_value_pair
 
       elsif /^\?/ =~ self
-        get_complex_type_variable
+        get_variable
         
-      elsif constant_text_pattern =~ self
-        get_constant
-        
-      elsif modifier_pattern =~ self
-        get_modifier
+      elsif ontologies.include?(self)
+        get_ontology
         
       else
         get_parts_for_simple_string
       end
     end
     
-    def modifier_pattern
-      /^([a-z]+(_[a-z]+)*)$/
-    end
-    
-    def get_modifier
-      simple_rdf!
-      modifier = self.gsub(/_is/, "").gsub(/has_/, "")
-      {:type => modifier}
-    end
-    
-    def constant_text_pattern
-      /^[A-Z][a-z][A-Za-z]*$/
-    end
-    
-    def get_constant
-      simple_rdf!
-      {:type => underscore(self)}
-    end
-
     def function_pattern
       /^[\w_:]+\(.+\)/
     end
@@ -114,7 +92,7 @@ module TripleParser
       }
     end
 
-    def get_complex_type_variable
+    def get_variable
       bracketed_url_rdf!
       text_after_question_mark = self[1..length]
       {:type => 'var', :value => text_after_question_mark}
@@ -156,9 +134,18 @@ module TripleParser
         value_match[1] 
       end
     end
+    
+    def get_ontology
+      simple_rdf!
+      {:type => 'ontology', :value => self}
+    end
 
     def resource_identifiers
       %w{resource domain}
+    end
+    
+    def ontologies
+      %w{about mentions}
     end
     
     def simple_rdf!
