@@ -63,7 +63,7 @@ module TripleParser
     
     def get_constant
       simple_rdf!
-      {:type => camelcase(self)}
+      {:type => underscore(self)}
     end
 
     def function_pattern
@@ -131,11 +131,11 @@ module TripleParser
 
     def get_type_from_bracketed_url
       after_hash_pattern = /\#([a-zA-Z]+)/ 
-      resource_url_pattern = /(resource)\/[a-zA-Z_]+\>/
+      resource_url_pattern = /(#{resource_identifiers.join('|')})\/[a-zA-Z_]+\>/
       type_match = match(after_hash_pattern) || match(resource_url_pattern) || match(last_element_of_url_pattern)
       if type_match
         type = type_match[1]
-        camelcase(type)
+        underscore(type)
       end
     end
     
@@ -148,7 +148,7 @@ module TripleParser
         text_before_hash_pattern = /([\w\-\._]*)\#/
         return match(text_before_hash_pattern)[1]
       end
-      if type_from_bracketed_url == 'resource'
+      if resource_identifiers.include? type_from_bracketed_url
         return match(last_element_of_url_pattern)[1]
       end
       value_match = match(/^\"(.*)\"/)
@@ -157,6 +157,10 @@ module TripleParser
       end
     end
 
+    def resource_identifiers
+      %w{resource domain}
+    end
+    
     def simple_rdf!
       @rdf_style = 'simple'
     end
@@ -169,7 +173,7 @@ module TripleParser
       @rdf_style = 'unknown'
     end
 
-    def camelcase(text)
+    def underscore(text)
       while letter_before_capital = text.index(/[a-z][A-Z]/)
         text.insert(letter_before_capital + 1, '_')
       end

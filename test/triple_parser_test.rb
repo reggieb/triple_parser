@@ -21,7 +21,7 @@ EOF
   
   def test_string_definitions
     load_triples <<EOF
-id:9108fe02-0bbb-4ed9-890f-b454877ce12c name_is string:'Troops tighten grip on Taliban stronghold'
+id:9108fe02-0bbb-4ed9-890f-b454877ce12c domain:name string:'Troops tighten grip on Taliban stronghold'
 <http://www.bbc.co.uk/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.bbc.co.uk/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>.
 EOF
     assert_first_last_match(@triples)

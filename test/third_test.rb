@@ -82,15 +82,15 @@ module TripleParser
       url = 'http://www.bbc.co.uk/ontologies/domain/name'
       bracketed_url = "<#{url}>"
       third = Third.new(bracketed_url)
-      assert_equal('name', third.type)
-      assert_nil(third.value, "Value should be nil")
+      assert_equal('domain', third.type)
+      assert_equal('name', third.value)
       assert_equal('bracketed_url', third.rdf_style)
       assert_equal(url, third.url)
     end
 
     def test_bracketed_pair_with_type
       url = 'http://purl.org/NET/c4dm/event.owl'
-      type = 'SomeType'
+      type = 'someType'
       bracketed_url = "<#{url}##{type}>"
       third = Third.new(bracketed_url)
       assert_equal('some_type', third.type)
