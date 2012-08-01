@@ -54,22 +54,6 @@ module TripleParser
       assert_nil(third.url, "url should be nil")   
     end
 
-    def test_lowercase_string
-      simple_text = "something"
-      third = Third.new(simple_text)
-      assert_equal(simple_text, third.type)
-      assert_nil(third.value, "Value should return nil")
-      assert_equal('simple', third.rdf_style)
-    end
-
-    def test_modifier
-      simple_text = "something_is"
-      third = Third.new(simple_text)
-      assert_equal('something', third.type)
-      assert_nil(third.value, "Value should return nil")
-      assert_equal('simple', third.rdf_style)
-    end
-
     def test_with_unknown_input
       unknown = "5admName"
       third = Third.new(unknown)
@@ -77,8 +61,38 @@ module TripleParser
       assert_nil(third.value, "Value should return nil")
       assert_equal('unknown', third.rdf_style)
     end
+    
+    def test_mentions
+      third = Third.new('mentions')
+      assert_equal('ontology', third.type)
+      assert_equal('mentions', third.value)
+      assert_equal('simple', third.rdf_style)
+    end
+    
+    def test_bracketed_url_mentions
+      url = '<http://data.press.net/ontology/tag/mentions>'
+      third = Third.new(url)
+      assert_equal('ontology', third.type)
+      assert_equal('mentions', third.value)
+      assert_equal('bracketed_url', third.rdf_style)
+    end
+    
+    def test_about
+      third = Third.new('about')
+      assert_equal('ontology', third.type)
+      assert_equal('about', third.value)
+      assert_equal('simple', third.rdf_style)
+    end
+    
+    def test_bracketed_url_about
+      url = '<http://data.press.net/ontology/tag/about>'
+      third = Third.new(url)
+      assert_equal('ontology', third.type)
+      assert_equal('about', third.value)
+      assert_equal('bracketed_url', third.rdf_style)
+    end
 
-    def test_bracketed_url
+    def test_bracketed_url_domain
       url = 'http://www.bbc.co.uk/ontologies/domain/name'
       bracketed_url = "<#{url}>"
       third = Third.new(bracketed_url)
@@ -87,24 +101,49 @@ module TripleParser
       assert_equal('bracketed_url', third.rdf_style)
       assert_equal(url, third.url)
     end
+    
+    def test_owl_event
+      text = 'event_owl:Event'
+      third = Third.new(text)
+      assert_equal('event_owl', third.type)
+      assert_equal('Event', third.value)
+      assert_equal('simple', third.rdf_style)
+    end
 
-    def test_bracketed_pair_with_type
+    def test_bracketed_pair_with_owl_event
       url = 'http://purl.org/NET/c4dm/event.owl'
-      type = 'someType'
+      type = 'Event'
       bracketed_url = "<#{url}##{type}>"
       third = Third.new(bracketed_url)
-      assert_equal('some_type', third.type)
-      assert_nil(third.value, "Value should be nil")
+      assert_equal('event_owl', third.type)
+      assert_equal('Event', third.value)
       assert_equal('bracketed_url', third.rdf_style)
       assert_equal(url, third.url)
     end
+    
+    def test_owl_event_time
+      text = 'event_owl:time'
+      third = Third.new(text)
+      assert_equal('event_owl', third.type)
+      assert_equal('time', third.value)
+      assert_equal('simple', third.rdf_style)
+    end
 
-    def test_bracketed_pair_with_single_word_type
+    def test_bracketed_pair_with_owl_event_time
       url = 'http://purl.org/NET/c4dm/event.owl'
-      type = 'Some'
+      type = 'time'
       bracketed_url = "<#{url}##{type}>"
       third = Third.new(bracketed_url)
-      assert_equal('some', third.type)
+      assert_equal('event_owl', third.type)
+      assert_equal('time', third.value)
+    end
+    
+    def test_bracket_pair_with_rdf_syntax
+      url = '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'
+      third = Third.new(url)
+      assert_equal('rdf', third.type)
+      assert_equal('type', third.value)
+      assert_equal('bracketed_url', third.rdf_style)
     end
 
     def test_bracketed_pair_with_type_and_value

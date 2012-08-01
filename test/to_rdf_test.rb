@@ -15,10 +15,8 @@ module TripleParser
     end
     
     def test_unknown_type
-      url = 'http://purl.org/NET/c4dm/event.owl'
-      type = 'someType'
-      triple = "<#{url}##{type}>"
-      assert_bracketed_url_type_returns_self(triple)
+      text = 'geo-pos:lat'
+      assert_bracketed_url_type_returns_self(text)
     end
     
     def test_date_time
@@ -26,7 +24,10 @@ module TripleParser
       assert_bracketed_url_type_returns_self(triple)
     end
     
-    
+    def test_domain_name
+      triple = '<http://www.bbc.co.uk/ontologies/domain/name>'
+      assert_bracketed_url_type_returns_self(triple)
+    end
     
     def assert_bracketed_url_type_returns_self(triple)
       third = Third.new(triple)
