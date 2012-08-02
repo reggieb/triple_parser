@@ -1,5 +1,6 @@
 require_relative 'triple_parser/third'
 require_relative 'triple_parser/triple_set'
+require_relative 'triple_parser/to_rdf'
 
 
 module TripleParser
@@ -9,7 +10,23 @@ module TripleParser
   
   def self.triples
     @triples = Array.new
-    @text.each_line{|triple| @triples << TripleSet.new(triple)}
+    @text.each_line{|triple| next if /^\s*$/ =~ triple; @triples << TripleSet.new(triple)}
     return @triples
+  end
+  
+  def self.to_rdf(text)
+    @text = text
+    output = triples.collect do |t|
+      [
+        get_rdf_for(t.subject),
+        get_rdf_for(t.predicate),
+        get_rdf_for(t.object)
+      ].join(' ') + "."
+    end 
+    return output
+  end
+  
+  def self.get_rdf_for(third)
+    ToRdf.new(third).to_s if third
   end
 end

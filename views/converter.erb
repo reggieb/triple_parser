@@ -1,0 +1,15 @@
+<form method="post" action="/">
+  <textarea name="triples" cols="145" rows="10">
+    <%= @triples %>
+  </textarea>
+  <input type="submit" value="Submit" />
+</form>
+<% if @output %>
+<div>
+<%   for triple in @output %>
+  <p>
+    <%= triple.gsub('>', '&gt;').gsub('<', '&lt;') %>
+  </p>
+<%   end %>
+</div>
+<% end %>

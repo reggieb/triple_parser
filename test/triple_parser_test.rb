@@ -66,6 +66,26 @@ EOF
 EOF
     assert_first_last_match(@triples)
   end
+  
+  def test_to_rdf
+    input = %q{<http://www.bbc.co.uk/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval>.}
+    output = TripleParser.to_rdf(input)
+    assert_equal(input, output.first)
+  end
+  
+  def test_multiline_to_rdf
+    triple = %q{<http://www.bbc.co.uk/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval>.}
+    
+    input = <<EOF
+<http://www.bbc.co.uk/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/event.owl#Event>.
+id:9108fe02-0bbb-4ed9-890f-b454877ce12c rdf:type owl:event:Event
+<http://www.bbc.co.uk/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.bbc.co.uk/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>.
+id:9108fe02-0bbb-4ed9-890f-b454877ce12c domain:name string:'Troops tighten grip on Taliban stronghold'  
+#{triple}
+EOF
+    output = TripleParser.to_rdf(input)
+    assert_equal(triple, output.last)
+  end
     
   def load_triples(input_text)
     TripleParser.input(input_text)
