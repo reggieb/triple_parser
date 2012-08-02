@@ -30,22 +30,24 @@ module TripleParser
       elsif function_pattern =~ self
         get_parts_for_function
 
-      elsif include?(':')
-        get_parts_for_type_value_pair
-
       elsif variable_pattern =~ self
         get_variable
         
       elsif ontologies.include?(self)
         get_ontology
         
+      elsif before_colon == 'xml'
+        get_xml
+        
+      elsif before_colon == 'owl'
+        get_owl
+        
+      elsif include?(':')
+        get_parts_for_type_value_pair  
+        
       else
         get_parts_for_simple_string
       end
-    end
-    
-    def variable_pattern
-      /^\?/
     end
     
     def function_pattern
@@ -64,10 +66,19 @@ module TripleParser
 
     def get_parts_for_type_value_pair
       simple_rdf!
-      i = index(':')
-      before_colon = self[0, (i)]
-      after_colon = self[i + 1..length]
-      {:type => before_colon, :value => remove_bracketing_quotes(after_colon)}
+      {:type => before_colon, :value => after_colon}
+    end
+    
+    def before_colon
+      @before_colon ||= self[0, (index(':'))] if include?(':')
+    end
+      
+    def after_colon
+      @after_colon ||= self[index(':') + 1..length] if include?(':')   
+    end 
+    
+    def get_xml
+      get_owl
     end
     
     def remove_bracketing_quotes(text)
@@ -76,6 +87,16 @@ module TripleParser
       else
         return text
       end
+    end
+    
+    def get_owl
+      simple_rdf!
+      elements = split(':')
+      text_after_second_colon = elements[2..elements.length].join(':')
+      {
+        :type => "#{elements[0]}:#{elements[1]}",
+        :value => remove_bracketing_quotes(text_after_second_colon)
+      }
     end
     
     def get_ontology
@@ -99,6 +120,10 @@ module TripleParser
       type_value_from_bracketed_url.merge(
         :url => get_url
       )
+    end
+    
+    def variable_pattern
+      /^\?/
     end
 
     def get_variable
@@ -179,7 +204,7 @@ module TripleParser
     
     def type_value_for_xml_schema
       {
-        :type => underscore(after_hash),
+        :type => "xml:#{underscore(after_hash)}",
         :value => match(xml_data_pattern)[1]
       }
     end
@@ -189,8 +214,9 @@ module TripleParser
     end
     
     def type_value_for_owl
+      type = match(text_before_hash_pattern)[1]
       {
-        :type => match(text_before_hash_pattern)[1].gsub(/\.owl/, '_owl'),
+        :type => "owl:#{type.gsub(/\.owl/, "")}",
         :value => after_hash
       }      
     end

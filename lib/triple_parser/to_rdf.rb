@@ -19,12 +19,38 @@ module TripleParser
       end
     end
     
+    def third_type
+      @third_type ||= @third.type.to_sym if @third.type
+    end    
+    
     def pass_to_type_method
-      if self.class.instance_methods.include?(third_type)
+      if owl_pattern =~ third_type
+        owl
+      elsif xml_schema_pattern =~ third_type
+        xml_schema
+      elsif  self.class.instance_methods.include?(third_type)
         send(third_type)
       else
         unknown_type
       end
+    end
+    
+    def owl_pattern
+      /owl\:(.*)/
+    end
+    
+    def owl
+      owl_type = owl_pattern.match(third_type)[1]
+      "<http://purl.org/NET/c4dm/#{owl_type}.owl##{@third.value}>"
+    end
+    
+    def xml_schema_pattern
+      /xml\:(.*)/
+    end
+    
+    def xml_schema
+      xml_type = xml_schema_pattern.match(third_type)[1]
+      %Q{"#{@third.value}"^^<http://www.w3.org/2001/XMLSchema##{camelcase(xml_type)}>}
     end
     
     def unknown
@@ -35,16 +61,29 @@ module TripleParser
       "#{third_type}:#{@third.value}"
     end
     
-    def date_time
-      %Q{"#{@third.value}"^^<http://www.w3.org/2001/XMLSchema#dateTime>}
-    end
-    
-    def third_type
-      @third_type ||= @third.type.to_sym if @third.type
+    def id
+      "<http://www.bbc.co.uk/things/#{@third.value}#id>"
     end
     
     def domain
       "<http://www.bbc.co.uk/ontologies/domain/name>"
+    end
+    
+    def resource
+      "<http://dbpedia.org/resource/#{@third.value}>"
+    end
+    
+    def ontology
+      "<http://data.press.net/ontology/tag/#{@third.value}>"
+    end
+    
+    def function
+      arguments = @third.arguments.collect{|a| self.class.new(a)}
+      "#{@third.value}(#{arguments.join(', ')})"
+    end
+    
+    def var
+      "?#{@third.value}"
     end
     
     def camelcase(text)

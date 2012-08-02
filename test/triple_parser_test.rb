@@ -8,20 +8,20 @@ class TripleParserTest < Test::Unit::TestCase
 
   def test_event_definitions
     load_triples <<EOF
-id:9108fe02-0bbb-4ed9-890f-b454877ce12c rdf:type event_owl:Event
+id:9108fe02-0bbb-4ed9-890f-b454877ce12c rdf:type owl:event:Event
 <http://www.bbc.co.uk/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/event.owl#Event>.
 EOF
      
     assert_equal('9108fe02-0bbb-4ed9-890f-b454877ce12c', @triples.first.subject.value)
     assert_equal('id', @triples.first.subject.type)
-    assert_equal('event_owl', @triples.first.object.type)
+    assert_equal('owl:event', @triples.first.object.type)
     
     assert_first_last_match(@triples)
   end
   
   def test_string_definitions
     load_triples <<EOF
-id:9108fe02-0bbb-4ed9-890f-b454877ce12c domain:name string:'Troops tighten grip on Taliban stronghold'
+id:9108fe02-0bbb-4ed9-890f-b454877ce12c domain:name xml:string:'Troops tighten grip on Taliban stronghold'
 <http://www.bbc.co.uk/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.bbc.co.uk/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>.
 EOF
     assert_first_last_match(@triples)
@@ -29,7 +29,7 @@ EOF
   
   def test_interval_type
     load_triples <<EOF
-id:0237eb08-e4a5-463c-baaa-5a28f2b63707 rdf:type timeline_owl:Interval
+id:0237eb08-e4a5-463c-baaa-5a28f2b63707 rdf:type owl:timeline:Interval
 <http://www.bbc.co.uk/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval>.
 EOF
     assert_first_last_match(@triples)
@@ -37,7 +37,7 @@ EOF
   
   def test_date_time
     load_triples <<EOF
-id:0237eb08-e4a5-463c-baaa-5a28f2b63707 timeline_owl:beginsAtDateTime date_time:'2010-02-15T12:00:00Z'
+id:0237eb08-e4a5-463c-baaa-5a28f2b63707 owl:timeline:beginsAtDateTime xml:date_time:'2010-02-15T12:00:00Z'
 <http://www.bbc.co.uk/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://purl.org/NET/c4dm/timeline.owl#beginsAtDateTime> "2010-02-15T12:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>.  
 EOF
     assert_first_last_match(@triples)
@@ -45,7 +45,7 @@ EOF
 
   def test_place
     load_triples <<EOF
-id:9108fe02-0bbb-4ed9-890f-b454877ce12c event_owl:place resource:United_Kingdom
+id:9108fe02-0bbb-4ed9-890f-b454877ce12c owl:event:place resource:United_Kingdom
 <http://www.bbc.co.uk/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://purl.org/NET/c4dm/event.owl#place> <http://dbpedia.org/resource/United_Kingdom>.
 EOF
     assert_first_last_match(@triples)

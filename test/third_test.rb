@@ -31,9 +31,16 @@ module TripleParser
     end
 
     def test_date_time
-      third = Third.new("date_time:'2010-02-17T12:00:00Z'")
-      assert_equal('date_time', third.type)
+      third = Third.new("xml:date_time:'2010-02-17T12:00:00Z'")
+      assert_equal('xml:date_time', third.type)
       assert_equal('2010-02-17T12:00:00Z', third.value)
+      assert_equal('simple', third.rdf_style)
+    end
+    
+     def test_string
+      third = Third.new("xml:string:'This is a string'")
+      assert_equal('xml:string', third.type)
+      assert_equal('This is a string', third.value)
       assert_equal('simple', third.rdf_style)
     end
 
@@ -95,9 +102,9 @@ module TripleParser
     end
     
     def test_owl_event
-      text = 'event_owl:Event'
+      text = 'owl:event:Event'
       third = Third.new(text)
-      assert_equal('event_owl', third.type)
+      assert_equal('owl:event', third.type)
       assert_equal('Event', third.value)
       assert_equal('simple', third.rdf_style)
     end
@@ -107,16 +114,16 @@ module TripleParser
       type = 'Event'
       bracketed_url = "<#{url}##{type}>"
       third = Third.new(bracketed_url)
-      assert_equal('event_owl', third.type)
+      assert_equal('owl:event', third.type)
       assert_equal('Event', third.value)
       assert_equal('bracketed_url', third.rdf_style)
       assert_equal(url, third.url)
     end
     
     def test_owl_event_time
-      text = 'event_owl:time'
+      text = 'owl:event:time'
       third = Third.new(text)
-      assert_equal('event_owl', third.type)
+      assert_equal('owl:event', third.type)
       assert_equal('time', third.value)
       assert_equal('simple', third.rdf_style)
     end
@@ -126,7 +133,7 @@ module TripleParser
       type = 'time'
       bracketed_url = "<#{url}##{type}>"
       third = Third.new(bracketed_url)
-      assert_equal('event_owl', third.type)
+      assert_equal('owl:event', third.type)
       assert_equal('time', third.value)
     end
     
@@ -144,7 +151,7 @@ module TripleParser
       value = '2010-02-15T12:00:00Z'
       bracketed_url = "\"#{value}\"^^<#{url}##{type}>"
       third = Third.new(bracketed_url)
-      assert_equal('date_time', third.type)
+      assert_equal('xml:date_time', third.type)
       assert_equal(value, third.value)
       assert_equal('bracketed_url', third.rdf_style)
       assert_equal(url, third.url)
@@ -156,7 +163,7 @@ module TripleParser
       value = 'Troops tighten grip on Taliban stronghold'
       bracketed_url = "\"#{value}\"^^<#{url}##{type}>."
       third = Third.new(bracketed_url)
-      assert_equal('string', third.type)
+      assert_equal('xml:string', third.type)
       assert_equal(value, third.value)
       assert_equal('bracketed_url', third.rdf_style)
       assert_equal(url, third.url)     
