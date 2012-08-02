@@ -68,6 +68,11 @@ module TripleParser
       assert_triple
     end
     
+    def test_rdf_type
+      @triple = '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'
+      assert_triple
+    end
+    
     def test_variable
       @triple = '?MyVariable'
       assert_triple

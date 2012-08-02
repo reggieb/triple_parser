@@ -86,6 +86,10 @@ module TripleParser
       "?#{@third.value}"
     end
     
+    def rdf
+      "<http://www.w3.org/1999/02/22-rdf-syntax-ns##{@third.value}>"
+    end
+    
     def camelcase(text)
       while underscore_pos = text.index(/_[a-z]/)
         letter_after_pos = underscore_pos + 1

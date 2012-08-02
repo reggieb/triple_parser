@@ -33,7 +33,7 @@ module TripleParser
     def pattern_to_split_triple
       if triple_is_rdf?
         pattern_to_split_bracketed_url_rdf
-      elsif triple_if_function?
+      elsif triple_is_function?
         @skip_triple_part = 3
         pattern_to_split_function
       else
@@ -49,7 +49,7 @@ module TripleParser
       /\<.+\>[\.\s]/
     end
     
-    def triple_if_function?
+    def triple_is_function?
       function_pattern =~ @triple
     end
     
