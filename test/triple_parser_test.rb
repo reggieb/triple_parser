@@ -68,13 +68,13 @@ EOF
   end
   
   def test_to_rdf
-    input = %q{<http://www.bbc.co.uk/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval>.}
+    input = %q{<http://www.bbc.co.uk/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval> .}
     output = TripleParser.to_rdf(input)
     assert_equal(input, output.first)
   end
   
   def test_multiline_to_rdf
-    triple = %q{<http://www.bbc.co.uk/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval>.}
+    triple = %q{<http://www.bbc.co.uk/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval> .}
     
     input = <<EOF
 <http://www.bbc.co.uk/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/event.owl#Event>.

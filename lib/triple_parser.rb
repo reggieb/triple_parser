@@ -10,7 +10,10 @@ module TripleParser
   
   def self.triples
     @triples = Array.new
-    @text.each_line{|triple| next if /^\s*$/ =~ triple; @triples << TripleSet.new(triple)}
+    @text.each_line do |triple| 
+      next if /^\s*$/ =~ triple
+      @triples << TripleSet.new(triple)
+    end
     return @triples
   end
   
@@ -21,7 +24,7 @@ module TripleParser
         get_rdf_for(t.subject),
         get_rdf_for(t.predicate),
         get_rdf_for(t.object)
-      ].join(' ') + "."
+      ].join(' ') + " ."
     end 
     return output
   end
