@@ -33,7 +33,7 @@ module TripleParser
       elsif include?(':')
         get_parts_for_type_value_pair
 
-      elsif /^\?/ =~ self
+      elsif variable_pattern =~ self
         get_variable
         
       elsif ontologies.include?(self)
@@ -42,6 +42,10 @@ module TripleParser
       else
         get_parts_for_simple_string
       end
+    end
+    
+    def variable_pattern
+      /^\?/
     end
     
     def function_pattern
@@ -73,6 +77,11 @@ module TripleParser
         return text
       end
     end
+    
+    def get_ontology
+      simple_rdf!
+      {:type => 'ontology', :value => self}
+    end
 
     def get_parts_for_simple_string
       unknown_rdf!
@@ -84,12 +93,12 @@ module TripleParser
     end
 
     def get_parts_for_bracketed_url
+      
       bracketed_url_rdf!
-      {
-        :url => get_url,
-        :type => type_from_bracketed_url,
-        :value => get_value_from_bracketed_url
-      }
+      
+      type_value_from_bracketed_url.merge(
+        :url => get_url
+      )
     end
 
     def get_variable
@@ -103,41 +112,121 @@ module TripleParser
       match(url_pattern)[0]
     end
     
-    def type_from_bracketed_url
-      @type_from_bracket_url ||= get_type_from_bracketed_url
-    end
-
-    def get_type_from_bracketed_url
-      after_hash_pattern = /\#([a-zA-Z]+)/ 
-      resource_url_pattern = /(#{resource_identifiers.join('|')})\/[a-zA-Z_]+\>/
-      type_match = match(after_hash_pattern) || match(resource_url_pattern) || match(last_element_of_url_pattern)
-      if type_match
-        type = type_match[1]
-        underscore(type)
-      end
-    end
     
     def last_element_of_url_pattern 
       /\/([a-zA-Z_]+)\>/
     end
+    
+    def type_value_from_bracketed_url
+      if text_after_hash_pattern =~ self
+        type_value_from_text_after_hash_url
+        
+      elsif resource_url_pattern =~ self
+        type_value_for_resource
+        
+      elsif ontology_url_pattern =~ self
+        type_value_for_ontology
+        
+        
+      else
+        {}
+        
+      end
+    end
 
-    def get_value_from_bracketed_url
-      if type_from_bracketed_url == 'id'
-        text_before_hash_pattern = /([\w\-\._]*)\#/
-        return match(text_before_hash_pattern)[1]
-      end
-      if resource_identifiers.include? type_from_bracketed_url
-        return match(last_element_of_url_pattern)[1]
-      end
-      value_match = match(/^\"(.*)\"/)
-      if value_match
-        value_match[1] 
+    def ontology_url_pattern
+      /data\.press\.net\/ontology\/(?:\w+\/)+(\w+)/
+    end
+    
+    def type_value_for_ontology
+      {
+        :type => 'ontology',
+        :value => match(ontology_url_pattern)[1]
+      }
+    end
+
+    def text_after_hash_pattern
+      /\#([a-zA-Z]+)/
+    end
+    
+    def after_hash 
+      @after_hash ||= match(text_after_hash_pattern)[1] if match(text_after_hash_pattern)
+    end
+   
+    def type_value_from_text_after_hash_url
+      
+      
+      if after_hash == 'id'
+        type_value_for_id_after_hash
+        
+      elsif rdf_url_pattern =~ self
+        type_value_for_rdf
+        
+      elsif owl_pattern =~ self
+        type_value_for_owl
+        
+      elsif xml_data_pattern =~ self
+        type_value_for_xml_schema
+        
+          
+      else
+        {}
       end
     end
     
-    def get_ontology
-      simple_rdf!
-      {:type => 'ontology', :value => self}
+    def xml_data_pattern
+      /["']([\w\-:]+)["']\^{2}\<http/
+    end
+    
+    def type_value_for_xml_schema
+      {
+        :type => underscore(after_hash),
+        :value => match(xml_data_pattern)[1]
+      }
+    end
+    
+    def owl_pattern
+      /\.owl#/
+    end
+    
+    def type_value_for_owl
+      {
+        :type => match(text_before_hash_pattern)[1].gsub(/\.owl/, '_owl'),
+        :value => after_hash
+      }      
+    end
+    
+    def rdf_url_pattern
+      /rdf\-syntax\-ns/
+    end
+    
+    def type_value_for_rdf
+      {
+        :type => 'rdf',
+        :value => after_hash
+      }     
+    end
+    
+    def type_value_for_id_after_hash
+      {
+        :type => 'id',
+        :value => match(text_before_hash_pattern)[1]
+      }
+    end
+    
+    def text_before_hash_pattern
+      /([\w\-\._]*)\#/
+    end
+    
+    def type_value_for_resource
+      {
+        :type => match(resource_url_pattern)[1],
+        :value => match(last_element_of_url_pattern)[1]
+      }
+    end
+    
+    def resource_url_pattern 
+      /(#{resource_identifiers.join('|')})\/[a-zA-Z_]+\>/
     end
 
     def resource_identifiers

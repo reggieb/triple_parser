@@ -46,14 +46,6 @@ module TripleParser
       assert_equal('simple', third.rdf_style)
     end
 
-    def test_object_type
-      third = Third.new('SomeType')
-      assert_equal('some_type', third.type)
-      assert_nil(third.value, "Value should be nil")
-      assert_equal('simple', third.rdf_style)
-      assert_nil(third.url, "url should be nil")   
-    end
-
     def test_with_unknown_input
       unknown = "5admName"
       third = Third.new(unknown)

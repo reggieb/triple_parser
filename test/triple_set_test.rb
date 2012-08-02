@@ -61,8 +61,8 @@ module TripleParser
     end
 
     def test_simple_date_time
-      t = TripleSet.new("id:0237eb08-e4a5-463c-baaa-5a28f2b63707 begins_at_date_time date_time:'2010-02-15T12:00:00Z'")
-      assert_equal('begins_at_date_time', t.predicate.type)
+      t = TripleSet.new("id:0237eb08-e4a5-463c-baaa-5a28f2b63707 timeline_owl:beginsAtDateTime date_time:'2010-02-15T12:00:00Z'")
+      assert_equal('timeline_owl', t.predicate.type)
       assert_equal('date_time', t.object.type)
       assert_equal('2010-02-15T12:00:00Z', t.object.value)
     end
