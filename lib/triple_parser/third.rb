@@ -158,6 +158,9 @@ module TripleParser
       
       if after_hash == 'id'
         type_value_for_id_after_hash
+
+      elsif xml_data_pattern =~ self
+        type_value_for_xml_schema
         
       elsif rdf_url_pattern =~ self
         type_value_for_rdf
@@ -165,17 +168,13 @@ module TripleParser
       elsif owl_pattern =~ self
         type_value_for_owl
         
-      elsif xml_data_pattern =~ self
-        type_value_for_xml_schema
-        
-          
       else
         {}
       end
     end
     
     def xml_data_pattern
-      /["']([\w\-:]+)["']\^{2}\<http/
+      /["'](.+)["']\^{2}\<http/
     end
     
     def type_value_for_xml_schema

@@ -149,6 +149,18 @@ module TripleParser
       assert_equal('bracketed_url', third.rdf_style)
       assert_equal(url, third.url)
     end
+    
+    def test_bracketed_pair_with_text_value_and_period
+      url = 'http://www.w3.org/2001/XMLSchema'
+      type = 'string'
+      value = 'Troops tighten grip on Taliban stronghold'
+      bracketed_url = "\"#{value}\"^^<#{url}##{type}>."
+      third = Third.new(bracketed_url)
+      assert_equal('string', third.type)
+      assert_equal(value, third.value)
+      assert_equal('bracketed_url', third.rdf_style)
+      assert_equal(url, third.url)     
+    end
 
     def test_bracketed_pair_with_id_and_value
       type = 'id'
