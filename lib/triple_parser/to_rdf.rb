@@ -20,7 +20,7 @@ module TripleParser
     end
     
     def third_type
-      @third_type ||= @third.type.to_sym if @third.type
+      @third_type ||= @third.type if @third.type
     end    
     
     def pass_to_type_method
@@ -28,7 +28,7 @@ module TripleParser
         owl
       elsif xml_schema_pattern =~ third_type
         xml_schema
-      elsif  self.class.instance_methods.include?(third_type)
+      elsif  self.class.instance_methods.include?(third_type.to_sym)
         send(third_type)
       else
         unknown_type
