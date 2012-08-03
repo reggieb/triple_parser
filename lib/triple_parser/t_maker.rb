@@ -54,11 +54,8 @@ module TripleParser
       elsif ontologies.include?(self)
         get_ontology
         
-      elsif before_colon == 'xml'
-        get_xml
-        
-      elsif before_colon == 'owl'
-        get_owl
+      elsif double_colon_first_elements.include?(before_colon)
+        get_double_colon_entry
         
       elsif include?(':')
         get_parts_for_type_value_pair  
@@ -95,10 +92,6 @@ module TripleParser
       @after_colon ||= self[index(':') + 1..length] if include?(':')   
     end 
     
-    def get_xml
-      get_owl
-    end
-    
     def remove_bracketing_quotes(text)
       if /^'.+'$/ =~ text || /^".+"$/ =~ text
         return text.gsub(/^['"]/, "").gsub(/['"]$/, "")
@@ -107,7 +100,11 @@ module TripleParser
       end
     end
     
-    def get_owl
+    def double_colon_first_elements
+      %w{xml owl}
+    end
+    
+    def get_double_colon_entry
       simple_rdf!
       elements = split(':')
       text_after_second_colon = elements[2..elements.length].join(':')

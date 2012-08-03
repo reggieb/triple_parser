@@ -43,8 +43,8 @@ module TripleParser
       assert_equal('This is a string', third.value)
       assert_equal('simple', third.rdf_style)
     end
-
-    def test_function
+    
+     def test_function
       third = TMaker.brew('omgeo:nearby(?Latitude, ?Longitude, "5km")')
       assert_equal('function', third.type)
       assert_equal('omgeo:nearby', third.value)
@@ -168,7 +168,7 @@ module TripleParser
       assert_equal('bracketed_url', third.rdf_style)
       assert_equal(url, third.url)     
     end
-
+    
     def test_bracketed_pair_with_id_and_value
       type = 'id'
       value = '9108fe02-0bbb-4ed9-890f-b454877ce12c'
