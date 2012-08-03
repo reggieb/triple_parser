@@ -1,5 +1,5 @@
 module TripleParser
-  class Third < String
+  class TMaker < String
     attr_accessor :arguments, :rdf_style, :url
 
     def initialize(*args)

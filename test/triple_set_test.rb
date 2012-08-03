@@ -5,7 +5,7 @@ $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 
 require 'test/unit'
 require 'triple_parser/triple_set'
-require 'triple_parser/third'
+require 'triple_parser/t_maker'
 
 module TripleParser
 
@@ -48,7 +48,7 @@ module TripleParser
       assert_equal('location', t.subject.value)
       assert_equal('function', t.predicate.type)
       assert_equal('omgeo:nearby', t.predicate.value)
-      arguments = [Third.new('?Latitude'), Third.new('?Longitude'), Third.new('"5km"')]
+      arguments = [TMaker.new('?Latitude'), TMaker.new('?Longitude'), TMaker.new('"5km"')]
       assert_equal(arguments, t.predicate.arguments)
       assert_nil(t.object)
     end
@@ -89,7 +89,7 @@ module TripleParser
       assert_equal('location', t.subject.value)
       assert_equal('function', t.predicate.type)
       assert_equal('omgeo:nearby', t.predicate.value)
-      arguments = [Third.new('?Latitude'), Third.new('?Longitude'), Third.new('"5km"')]
+      arguments = [TMaker.new('?Latitude'), TMaker.new('?Longitude'), TMaker.new('"5km"')]
       assert_equal(arguments, t.predicate.arguments)
       assert_nil(t.object)
     end

@@ -2,7 +2,7 @@ $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 
 require 'test/unit'
 require 'triple_parser/to_rdf'
-require 'triple_parser/third'
+require 'triple_parser/t_maker'
 
 module TripleParser
 
@@ -89,7 +89,7 @@ module TripleParser
     end
     
     def assert_bracketed_url_type_returns_self
-      third = Third.new(@triple)
+      third = TMaker.new(@triple)
       to_rdf = ToRdf.new(third)
       assert_equal(@triple, to_rdf.to_s)
     end

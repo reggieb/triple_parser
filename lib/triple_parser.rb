@@ -1,4 +1,4 @@
-require_relative 'triple_parser/third'
+require_relative 'triple_parser/t_maker'
 require_relative 'triple_parser/triple_set'
 require_relative 'triple_parser/to_rdf'
 

@@ -1,6 +1,6 @@
 module TripleParser
   class TripleSet
-    require_relative 'third'
+    require_relative 't_maker'
 
     def initialize(triple)
       @triple = triple
@@ -27,7 +27,7 @@ module TripleParser
       pattern_to_split_triple
       match = pattern_to_split_triple.match(@triple)
       matches = [1, 2, 3].collect{|i| match[i] if i != @skip_triple_part}.compact
-      matches.collect{|m| Third.new(m)}
+      matches.collect{|m| TMaker.new(m)}
     end
 
     def pattern_to_split_triple
