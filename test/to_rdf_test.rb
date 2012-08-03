@@ -89,7 +89,7 @@ module TripleParser
     end
     
     def assert_bracketed_url_type_returns_self
-      third = TMaker.new(@triple)
+      third = TMaker.brew(@triple)
       to_rdf = ToRdf.new(third)
       assert_equal(@triple, to_rdf.to_s)
     end

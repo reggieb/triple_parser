@@ -1,9 +1,27 @@
 module TripleParser
   class TMaker < String
+    require_relative 'third'
+    
     attr_accessor :arguments, :rdf_style, :url
+    
+    def self.brew(*args)
+      t_maker = new(*args)
+      t_maker.third
+    end
 
     def initialize(*args)
       super
+    end
+    
+    def third
+      Third.new(
+        self.to_s,
+        :type => type,
+        :value => value,
+        :url => url,
+        :rdf_style => rdf_style,
+        :arguments => arguments
+      )
     end
 
     def parts

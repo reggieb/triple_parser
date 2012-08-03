@@ -48,7 +48,7 @@ module TripleParser
       assert_equal('location', t.subject.value)
       assert_equal('function', t.predicate.type)
       assert_equal('omgeo:nearby', t.predicate.value)
-      arguments = [TMaker.new('?Latitude'), TMaker.new('?Longitude'), TMaker.new('"5km"')]
+      arguments = [TMaker.brew('?Latitude'), TMaker.brew('?Longitude'), TMaker.brew('"5km"')]
       assert_equal(arguments, t.predicate.arguments)
       assert_nil(t.object)
     end
@@ -89,7 +89,7 @@ module TripleParser
       assert_equal('location', t.subject.value)
       assert_equal('function', t.predicate.type)
       assert_equal('omgeo:nearby', t.predicate.value)
-      arguments = [TMaker.new('?Latitude'), TMaker.new('?Longitude'), TMaker.new('"5km"')]
+      arguments = [TMaker.brew('?Latitude'), TMaker.brew('?Longitude'), TMaker.brew('"5km"')]
       assert_equal(arguments, t.predicate.arguments)
       assert_nil(t.object)
     end

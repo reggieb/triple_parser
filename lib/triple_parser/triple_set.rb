@@ -27,7 +27,7 @@ module TripleParser
       pattern_to_split_triple
       match = pattern_to_split_triple.match(@triple)
       matches = [1, 2, 3].collect{|i| match[i] if i != @skip_triple_part}.compact
-      matches.collect{|m| TMaker.new(m)}
+      matches.collect{|m| TMaker.brew(m)}
     end
 
     def pattern_to_split_triple
