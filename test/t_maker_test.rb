@@ -34,14 +34,14 @@ module TripleParser
       third = TMaker.brew("xml:date_time:'2010-02-17T12:00:00Z'")
       assert_equal('xml:date_time', third.type)
       assert_equal('2010-02-17T12:00:00Z', third.value)
-      assert_equal('simple', third.rdf_style)
+      assert_equal('colon_separated', third.rdf_style)
     end
     
      def test_string
       third = TMaker.brew("xml:string:'This is a string'")
       assert_equal('xml:string', third.type)
       assert_equal('This is a string', third.value)
-      assert_equal('simple', third.rdf_style)
+      assert_equal('colon_separated', third.rdf_style)
     end
     
      def test_function
@@ -50,11 +50,11 @@ module TripleParser
       assert_equal('omgeo:nearby', third.value)
       arguments = [TMaker.brew('?Latitude'), TMaker.brew('?Longitude'), TMaker.brew('"5km"')]
       assert_equal(arguments, third.arguments)
-      assert_equal('simple', third.rdf_style)
+      assert_equal('colon_separated', third.rdf_style)
     end
 
     def test_with_unknown_input
-      unknown = "5admName"
+      unknown = "5admName Haf"
       third = TMaker.brew(unknown)
       assert_nil(third.type, "Type should return nil")
       assert_nil(third.value, "Value should return nil")
@@ -62,10 +62,10 @@ module TripleParser
     end
     
     def test_mentions
-      third = TMaker.brew('mentions')
+      third = TMaker.brew('ontology:mentions')
       assert_equal('ontology', third.type)
       assert_equal('mentions', third.value)
-      assert_equal('simple', third.rdf_style)
+      assert_equal('colon_separated', third.rdf_style)
     end
     
     def test_bracketed_url_mentions
@@ -77,10 +77,10 @@ module TripleParser
     end
     
     def test_about
-      third = TMaker.brew('about')
+      third = TMaker.brew('ontology:about')
       assert_equal('ontology', third.type)
       assert_equal('about', third.value)
-      assert_equal('simple', third.rdf_style)
+      assert_equal('colon_separated', third.rdf_style)
     end
     
     def test_bracketed_url_about
@@ -106,7 +106,7 @@ module TripleParser
       third = TMaker.brew(text)
       assert_equal('owl:event', third.type)
       assert_equal('Event', third.value)
-      assert_equal('simple', third.rdf_style)
+      assert_equal('colon_separated', third.rdf_style)
     end
 
     def test_bracketed_pair_with_owl_event
@@ -125,7 +125,7 @@ module TripleParser
       third = TMaker.brew(text)
       assert_equal('owl:event', third.type)
       assert_equal('time', third.value)
-      assert_equal('simple', third.rdf_style)
+      assert_equal('colon_separated', third.rdf_style)
     end
 
     def test_bracketed_pair_with_owl_event_time
@@ -181,12 +181,12 @@ module TripleParser
       assert_equal(url, third.url)
     end
 
-    def test_variable_of_complex_type
+    def test_variable
       variable = '?this'
       third = TMaker.brew(variable)
       assert_equal('var', third.type)
       assert_equal('this', third.value)
-      assert_equal('bracketed_url', third.rdf_style)
+      assert_equal('variable', third.rdf_style)
     end
 
     def test_resource_from_complex_type
@@ -202,7 +202,7 @@ module TripleParser
       third = TMaker.brew(text)
       assert_equal('geo-pos', third.type)
       assert_equal('lat', third.value)
-      assert_equal('simple', third.rdf_style)
+      assert_equal('colon_separated', third.rdf_style)
     end
   end
 
