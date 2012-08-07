@@ -9,7 +9,7 @@ class TripleParserTest < Test::Unit::TestCase
   def test_event_definitions
     load_triples <<EOF
 id:9108fe02-0bbb-4ed9-890f-b454877ce12c rdf:type owl:event:Event
-<http://#{TripleParser::Settings.application_url}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/event.owl#Event>.
+<http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/event.owl#Event>.
 EOF
      
     assert_equal('9108fe02-0bbb-4ed9-890f-b454877ce12c', @triples.first.subject.value)
@@ -22,7 +22,7 @@ EOF
   def test_string_definitions
     load_triples <<EOF
 id:9108fe02-0bbb-4ed9-890f-b454877ce12c domain:name xml:string:'Troops tighten grip on Taliban stronghold'
-<http://#{TripleParser::Settings.application_url}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.bbc.co.uk/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.bbc.co.uk/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>.
 EOF
     assert_first_last_match(@triples)
   end
@@ -30,7 +30,7 @@ EOF
   def test_interval_type
     load_triples <<EOF
 id:0237eb08-e4a5-463c-baaa-5a28f2b63707 rdf:type owl:timeline:Interval
-<http://#{TripleParser::Settings.application_url}/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval>.
+<http://#{TripleParser::Settings.application_domain}/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval>.
 EOF
     assert_first_last_match(@triples)
   end 
@@ -38,7 +38,7 @@ EOF
   def test_date_time
     load_triples <<EOF
 id:0237eb08-e4a5-463c-baaa-5a28f2b63707 owl:timeline:beginsAtDateTime xml:date_time:'2010-02-15T12:00:00Z'
-<http://#{TripleParser::Settings.application_url}/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://purl.org/NET/c4dm/timeline.owl#beginsAtDateTime> "2010-02-15T12:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>.  
+<http://#{TripleParser::Settings.application_domain}/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://purl.org/NET/c4dm/timeline.owl#beginsAtDateTime> "2010-02-15T12:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>.  
 EOF
     assert_first_last_match(@triples)
   end
@@ -46,7 +46,7 @@ EOF
   def test_place
     load_triples <<EOF
 id:9108fe02-0bbb-4ed9-890f-b454877ce12c owl:event:place resource:United_Kingdom
-<http://#{TripleParser::Settings.application_url}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://purl.org/NET/c4dm/event.owl#place> <http://dbpedia.org/resource/United_Kingdom>.
+<http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://purl.org/NET/c4dm/event.owl#place> <http://dbpedia.org/resource/United_Kingdom>.
 EOF
     assert_first_last_match(@triples)
   end
@@ -68,18 +68,18 @@ EOF
   end
   
   def test_to_rdf
-    input = %Q{<http://#{TripleParser::Settings.application_url}/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval> .}
+    input = %Q{<http://#{TripleParser::Settings.application_domain}/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval> .}
     output = TripleParser.to_rdf(input)
     assert_equal(input, output.first)
   end
   
   def test_multiline_to_rdf
-    triple = %Q{<http://#{TripleParser::Settings.application_url}/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval> .}
+    triple = %Q{<http://#{TripleParser::Settings.application_domain}/things/0237eb08-e4a5-463c-baaa-5a28f2b63707#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval> .}
     
     input = <<EOF
-<http://#{TripleParser::Settings.application_url}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/event.owl#Event>.
+<http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/event.owl#Event>.
 id:9108fe02-0bbb-4ed9-890f-b454877ce12c rdf:type owl:event:Event
-<http://#{TripleParser::Settings.application_url}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.bbc.co.uk/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.bbc.co.uk/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>.
 id:9108fe02-0bbb-4ed9-890f-b454877ce12c domain:name string:'Troops tighten grip on Taliban stronghold'  
 #{triple}
 EOF

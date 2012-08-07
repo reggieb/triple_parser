@@ -18,7 +18,7 @@ module TripleParser
     end
     
     def test_id
-      @triple = "<http://#{Settings.application_url}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id>"
+      @triple = "<http://#{Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id>"
       assert_triple
     end
     
@@ -48,7 +48,7 @@ module TripleParser
     end
     
     def test_domain_name
-      @triple = "<http://#{Settings.application_url}/ontologies/domain/name>"
+      @triple = "<http://#{Settings.application_domain}/ontologies/domain/name>"
       assert_triple
     end
     

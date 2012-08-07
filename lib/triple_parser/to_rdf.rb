@@ -62,11 +62,11 @@ module TripleParser
     end
     
     def id
-      "<http://#{Settings.application_url}/things/#{@third.value}#id>"
+      "<http://#{Settings.application_domain}/things/#{@third.value}#id>"
     end
     
     def domain
-      "<http://#{Settings.application_url}/ontologies/domain/name>"
+      "<http://#{Settings.application_domain}/ontologies/domain/name>"
     end
     
     def resource
