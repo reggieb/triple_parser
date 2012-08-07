@@ -204,6 +204,45 @@ module TripleParser
       assert_equal('lat', third.value)
       assert_equal('colon_separated', third.rdf_style)
     end
+    
+    def test_asset
+      third = TMaker.brew('asset:Story')
+      assert_equal('asset', third.type)
+      assert_equal('Story', third.value)
+      assert_equal('colon_separated', third.rdf_style)      
+    end
+    
+    def test_bracketed_asset
+      bracketed_url = '<http://www.bbc.co.uk/ontologies/asset/Story>'
+      third = TMaker.brew(bracketed_url)
+      assert_equal('asset', third.type)
+      assert_equal('Story', third.value)
+      assert_equal('bracketed_url', third.rdf_style)
+    end
+    
+    def test_english_text
+      third = TMaker.brew('"Some text"@en')
+      assert_equal('text:en', third.type)
+      assert_equal('Some text', third.value)
+      assert_equal('regional_text', third.rdf_style)      
+    end
+    
+    
+    def test_dc_terms
+      third = TMaker.brew('dc:terms:subject')
+      assert_equal('dc:terms', third.type)
+      assert_equal('subject', third.value)
+      assert_equal('colon_separated', third.rdf_style)         
+    end
+    
+    def test_bracketed_dc_terms
+      bracketed_url = '<http://purl.org/dc/terms/subject>'
+      third = TMaker.brew(bracketed_url)
+      assert_equal('dc:terms', third.type)
+      assert_equal('subject', third.value)
+      assert_equal('bracketed_url', third.rdf_style)
+    end
+    
   end
 
 end

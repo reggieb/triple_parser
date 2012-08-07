@@ -74,7 +74,7 @@ module TripleParser
     end
     
     def double_colon_first_elements
-      %w{xml owl}
+      %w{xml owl dc}
     end
     
     def get_double_colon_entry

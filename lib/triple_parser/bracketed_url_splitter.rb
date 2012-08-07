@@ -39,6 +39,11 @@ module TripleParser
       elsif ontology_url_pattern =~ self
         type_value_for_ontology
         
+      elsif dc_terms_pattern =~ self
+        type_value_for_dc_terms
+        
+      elsif asset_pattern =~ self
+        type_value_for_asset
         
       else
         {}
@@ -135,7 +140,29 @@ module TripleParser
         :type => 'ontology',
         :value => match(ontology_url_pattern)[1]
       }
-    end    
+    end  
+    
+    def dc_terms_pattern
+      /\/dc\/terms\/([a-zA-Z_]+)/
+    end
+    
+    def type_value_for_dc_terms
+      {
+        :type => 'dc:terms',
+        :value => match(dc_terms_pattern)[1]
+      }
+    end
+    
+    def asset_pattern
+      /\/ontologies\/asset\/([a-zA-Z_]+)/
+    end
+    
+    def type_value_for_asset
+      {
+        :type => 'asset',
+        :value => match(asset_pattern)[1]
+      }      
+    end
     
     def last_element_of_url_pattern 
       /\/([a-zA-Z_]+)\>/

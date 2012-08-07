@@ -5,6 +5,7 @@ module TripleParser
     require_relative 'colon_separated_splitter'
     require_relative 'variable_splitter'
     require_relative 'unspecified_splitter'
+    require_relative 'regional_text_splitter'
     
     attr_accessor :arguments, :rdf_style, :url
     
@@ -48,7 +49,13 @@ module TripleParser
     end
   
     def splitters
-      [BracketedUrlSplitter, ColonSeparatedSplitter, VariableSplitter, UnspecifiedSplitter]
+      [
+        BracketedUrlSplitter, 
+        ColonSeparatedSplitter, 
+        VariableSplitter, 
+        RegionalTextSplitter, 
+        UnspecifiedSplitter
+      ]
     end
   
 
