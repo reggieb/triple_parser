@@ -5,6 +5,7 @@ require 'sinatra'
 require 'erb'
 require_relative 'lib/triple_parser'
 
+TripleParser::Settings.application_url = 'undervale.co.uk'
 
 get '/' do
   erb :converter

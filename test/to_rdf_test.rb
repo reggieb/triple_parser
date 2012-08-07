@@ -1,8 +1,7 @@
 $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 
 require 'test/unit'
-require 'triple_parser/to_rdf'
-require 'triple_parser/t_maker'
+require 'triple_parser'
 
 module TripleParser
 
@@ -19,7 +18,7 @@ module TripleParser
     end
     
     def test_id
-      @triple = '<http://www.bbc.co.uk/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id>'
+      @triple = "<http://#{Settings.application_url}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id>"
       assert_triple
     end
     
@@ -49,7 +48,7 @@ module TripleParser
     end
     
     def test_domain_name
-      @triple = '<http://www.bbc.co.uk/ontologies/domain/name>'
+      @triple = "<http://#{Settings.application_url}/ontologies/domain/name>"
       assert_triple
     end
     

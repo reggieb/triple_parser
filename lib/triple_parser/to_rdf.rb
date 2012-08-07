@@ -62,11 +62,11 @@ module TripleParser
     end
     
     def id
-      "<http://www.bbc.co.uk/things/#{@third.value}#id>"
+      "<http://#{Settings.application_url}/things/#{@third.value}#id>"
     end
     
     def domain
-      "<http://www.bbc.co.uk/ontologies/domain/name>"
+      "<http://#{Settings.application_url}/ontologies/domain/name>"
     end
     
     def resource
