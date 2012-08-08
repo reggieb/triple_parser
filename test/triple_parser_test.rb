@@ -59,6 +59,14 @@ EOF
     assert_first_last_match(@triples)
   end
   
+  def test_asset
+    load_triples <<EOF
+<http://demivee.com/8298>  rdf:type asset:Story
+<http://demivee.com/8298> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.bbc.co.uk/ontologies/asset/Story>
+EOF
+    assert_first_last_match(@triples)
+  end
+  
   def test_function
     load_triples <<EOF
 ?location omgeo:nearby(?Latitude, ?Longitude, "5km")   

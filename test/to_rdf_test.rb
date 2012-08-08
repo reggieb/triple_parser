@@ -87,6 +87,11 @@ module TripleParser
       assert_triple
     end
     
+    def test_asset
+      @triple = 'http://www.bbc.co.uk/ontologies/asset/Story'
+      assert_triple
+    end
+    
     private
     def assert_triple
       assert_bracketed_url_type_returns_self

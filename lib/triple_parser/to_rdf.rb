@@ -103,6 +103,10 @@ module TripleParser
       "<http://data.press.net/ontology/tag/#{@third.value}>"
     end
     
+    def assert
+      "<http://www.bbc.co.uk/ontologies/asset/#{@third.value}>"
+    end
+    
     def function
       arguments = @third.arguments.collect{|a| self.class.new(a)}
       "#{@third.value}(#{arguments.join(', ')})"
