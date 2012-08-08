@@ -42,7 +42,7 @@ module TripleParser
       assert_triple
     end
     
-    def test_text
+    def test_xml_text
       @triple = %q{"Troops tighten grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>}
       assert_triple
     end
@@ -84,6 +84,11 @@ module TripleParser
     
     def test_dc_term
       @triple = '<http://purl.org/dc/terms/title>'
+      assert_triple
+    end
+    
+    def test_regional_text
+      @triple = '"Some text"@en'
       assert_triple
     end
     
