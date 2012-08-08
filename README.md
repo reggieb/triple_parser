@@ -15,6 +15,7 @@ For example:
     TripleParser.to_rdf(triples)
 
 Outputs:
+
     [
       "<http://en.wikipedia.org/wiki/Triplestore/things/112121212111111111111#id> <http://purl.org/NET/c4dm/event.owl#time> <http://en.wikipedia.org/wiki/Triplestore/things/234242342342334234242432#id> .",
       "<http://en.wikipedia.org/wiki/Triplestore/things/234242342342334234242432#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/timeline.owl#Interval> .",
