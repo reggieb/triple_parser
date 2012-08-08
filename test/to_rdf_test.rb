@@ -82,6 +82,11 @@ module TripleParser
       assert_triple
     end
     
+    def test_dc_term
+      @triple = '<http://purl.org/dc/terms/title>'
+      assert_triple
+    end
+    
     private
     def assert_triple
       assert_bracketed_url_type_returns_self

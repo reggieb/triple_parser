@@ -86,6 +86,26 @@ EOF
     output = TripleParser.to_rdf(input)
     assert_equal(triple, output.last)
   end
+  
+  def test_actual
+    triples = <<EOF
+<http://meemm.edu/9600> <http://purl.org/dc/terms/title> "lorem ipsum dolor sit amet44585"@en .
+<http://meemm.edu/9600> <http://purl.org/dc/terms/description> "lorem ipsum dolor sit amet consectetuer adipiscing elit proin risus praesent lectus vestibulum quam sapien varius ut blandit non interdum in ante vestibulum ante ipsum"@en .
+<http://meemm.edu/9600> <http://purl.org/dc/terms/created> "2012-08-08T03:51:41Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<http://meemm.edu/9600> <http://purl.org/dc/terms/subject> "lorem ipsum37952"@en .
+<http://meemm.edu/9600> <http://purl.org/dc/terms/identifier> "01255" .
+<http://meemm.edu/9600> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.bbc.co.uk/ontologies/asset/Story> .
+<http://meemm.edu/9600> <http://purl.org/dc/terms/publisher> <> .
+<http://meemm.edu/9600> <http://purl.org/dc/terms/valid> "2012-08-08T03:51:41Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .    
+EOF
+    first_triple = "<http://meemm.edu/9600> <http://purl.org/dc/terms/title> \"lorem ipsum dolor sit amet44585\"@en ."
+    
+    last_triple = "<http://meemm.edu/9600> <http://purl.org/dc/terms/valid> \"2012-08-08T03:51:41Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> ."
+    
+    output = TripleParser.to_rdf(triples)
+    assert_equal(first_triple, output.first)
+    assert_equal(last_triple, output.last)
+  end
     
   def load_triples(input_text)
     TripleParser.input(input_text)

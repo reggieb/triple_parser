@@ -24,67 +24,37 @@ module TripleParser
 
     private
     def get_parts
-      pattern_to_split_triple
       match = pattern_to_split_triple.match(@triple)
       matches = [1, 2, 3].collect{|i| match[i] if i != @skip_triple_part}.compact
       matches.collect{|m| TMaker.brew(m)}
     end
 
     def pattern_to_split_triple
-      if triple_is_rdf?
-        pattern_to_split_bracketed_url_rdf
-      elsif triple_is_function?
+      if triple_is_function?
         @skip_triple_part = 3
         pattern_to_split_function
       else
-        pattern_to_split_simple_triple
+        triple_spitting_pattern
       end
     end
 
-    def triple_is_rdf?
-      @triple.index(rdf_pattern)
-    end
-
-    def rdf_pattern
-      /\<.+\>[\.\s]/
-    end
-    
     def triple_is_function?
       function_pattern =~ @triple
     end
     
     def function_pattern
 
-    Regexp.new([
-      start_with_possible_white_space_pattern,
-      start_variable_or_bracketed_url_pattern,
-      receiving_variable_or_bracketed_url_pattern,
-      function_name_pattern,
-      function_arguments_pattern,
-      closing_white_space_or_period_pattern,
-    ].join)
+      Regexp.new([
+        start_with_possible_white_space_pattern,
+        start_variable_or_bracketed_url_pattern,
+        receiving_variable_or_bracketed_url_pattern,
+        function_name_pattern,
+        function_arguments_pattern,
+        closing_white_space_or_period_pattern,
+      ].join)
   
     end
 
-    def pattern_to_split_bracketed_url_rdf
-      standard_rdf_element_or_text_pattern
-      
-      optional_input = '(?:\".+\"\^\^)?'
-
-      rdf_element = ['(', optional_input, standard_rdf_element_or_text_pattern, ')']
-
-      Regexp.new([rdf_element, spaces, rdf_element, spaces, rdf_element].flatten.join)
-    end
-
-    def pattern_to_split_simple_triple
-      
-      optional_input = %q{(?:["'][\w\s-:]*["'])?}
-
-      text = ['(', basic_text_pattern, optional_input, ')']
-
-      Regexp.new([text, spaces, text, spaces, text].flatten.join)
-    end
-    
     def pattern_to_split_function
       
       receiving_element_pattern = '[\w?:\/_\-#<>\.]+'
@@ -102,6 +72,15 @@ module TripleParser
         ].join
       )
       
+    end
+    
+    def triple_spitting_pattern
+      triple_containing_single_quoted_text = %q{\S*\'.*\'\S*}
+      triple_containing_double_quoted_text = %q{\S*\".*\"\S*}
+      text_not_split_by_spaces = '\S*'
+      triple = [triple_containing_single_quoted_text, triple_containing_double_quoted_text, text_not_split_by_spaces].join('|')
+      spaced_triples = Array.new(3, "(#{triple})").join('\s+')
+      Regexp.new(spaced_triples)
     end
     
     def spaces

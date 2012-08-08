@@ -243,6 +243,16 @@ module TripleParser
       assert_equal('bracketed_url', third.rdf_style)
     end
     
+    def test_basic_bracketed_url
+      bracketed_url = '<http://meemm.edu/9600>'
+      third = TMaker.brew(bracketed_url)
+      assert_nil(third.type)
+      assert_nil(third.value)
+      assert_equal(third.url, 'http://meemm.edu/9600')
+      assert_equal(bracketed_url, third)
+      assert_equal('bracketed_url', third.rdf_style)      
+    end
+        
   end
 
 end

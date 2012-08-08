@@ -46,7 +46,7 @@ module TripleParser
         type_value_for_asset
         
       else
-        {}
+        type_value_for_unknown_url
         
       end
     end
@@ -162,6 +162,12 @@ module TripleParser
         :type => 'asset',
         :value => match(asset_pattern)[1]
       }      
+    end
+    
+    def type_value_for_unknown_url
+      {
+        :url => get_url
+      }
     end
     
     def last_element_of_url_pattern 

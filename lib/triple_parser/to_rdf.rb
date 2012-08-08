@@ -24,33 +24,59 @@ module TripleParser
     end    
     
     def pass_to_type_method
-      if owl_pattern =~ third_type
-        owl
-      elsif xml_schema_pattern =~ third_type
-        xml_schema
-      elsif  self.class.instance_methods.include?(third_type.to_sym)
+      if type_if_known_colon_pair?
+        send(colon_prefix)
+        
+      elsif method_exists_for?(third_type)
         send(third_type)
+        
       else
         unknown_type
       end
     end
     
-    def owl_pattern
-      /owl\:(.*)/
+    def type_if_known_colon_pair?
+      if colon_pair_pattern =~ third_type
+        method_exists_for?(colon_prefix)
+      end
     end
     
+    def method_exists_for?(name)
+      self.class.instance_methods.include?(name.to_sym)
+    end
+    
+    # prefix:suffix
+    def colon_pair_pattern
+      /([a-zA-Z\-\_]+)\:([a-zA-Z\-\_]+)/
+    end
+    
+     def colon_match
+      @colon_match ||= colon_pair_pattern.match(third_type)
+    end    
+    
+    def colon_prefix
+      @colon_prefix ||= colon_match[1]
+    end
+    
+    def colon_suffix
+      @colon_suffix ||= colon_match[2]
+    end 
+
     def owl
-      owl_type = owl_pattern.match(third_type)[1]
-      "<http://purl.org/NET/c4dm/#{owl_type}.owl##{@third.value}>"
+      "<http://purl.org/NET/c4dm/#{colon_suffix}.owl##{@third.value}>"
+    end
+
+    
+    def xml
+      %Q{"#{@third.value}"^^<http://www.w3.org/2001/XMLSchema##{camelcase(colon_suffix)}>}
     end
     
-    def xml_schema_pattern
-      /xml\:(.*)/
+    def dc
+      "<http://purl.org/dc/#{colon_suffix}/#{@third.value}>"
     end
     
-    def xml_schema
-      xml_type = xml_schema_pattern.match(third_type)[1]
-      %Q{"#{@third.value}"^^<http://www.w3.org/2001/XMLSchema##{camelcase(xml_type)}>}
+    def text
+      %Q{"#{@third.value}"@#{colon_suffix}}
     end
     
     def unknown

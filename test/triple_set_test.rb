@@ -54,7 +54,7 @@ module TripleParser
     end
 
     def test_with_rdf
-      t = TripleSet.new('<http://www.bbc.co.uk/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/event.owl#Event>.')
+      t = TripleSet.new('<http://www.bbc.co.uk/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/event.owl#Event> .')
       assert_equal('<http://www.bbc.co.uk/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id>', t.subject)
       assert_equal('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', t.predicate)
       assert_equal('<http://purl.org/NET/c4dm/event.owl#Event>', t.object)    
