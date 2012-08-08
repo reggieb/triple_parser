@@ -103,7 +103,7 @@ module TripleParser
       "<http://data.press.net/ontology/tag/#{@third.value}>"
     end
     
-    def assert
+    def asset
       "<http://www.bbc.co.uk/ontologies/asset/#{@third.value}>"
     end
     

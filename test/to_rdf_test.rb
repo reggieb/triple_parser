@@ -88,8 +88,9 @@ module TripleParser
     end
     
     def test_asset
-      @triple = 'http://www.bbc.co.uk/ontologies/asset/Story'
+      @triple = '<http://www.bbc.co.uk/ontologies/asset/Story>'
       assert_triple
+      assert_equal('asset', @third.type)
     end
     
     private
@@ -98,8 +99,8 @@ module TripleParser
     end
     
     def assert_bracketed_url_type_returns_self
-      third = TMaker.brew(@triple)
-      to_rdf = ToRdf.new(third)
+      @third = TMaker.brew(@triple)
+      to_rdf = ToRdf.new(@third)
       assert_equal(@triple, to_rdf.to_s)
     end
     
