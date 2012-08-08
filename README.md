@@ -29,3 +29,14 @@ The default application url is 'en.wikipedia.org/wiki/Triplestore' where you can
 To change this to your site specific url, use this (in a Rails initializer for example):
 
     TripleParser::Settings.application_domain = 'undervale.co.uk' 
+
+Playground
+----------
+A simple Sinatra site is included, where you can enter triples and see how they converted by TripleParser.to_rdf
+
+To play:
+
+    ruby web.rb
+
+The page can then be viewed at http://localhost:4567
+Enter your triples in the text area and click submit. The output will appear below the text area
