@@ -43,7 +43,7 @@ module TripleParser
     end
 
     def test_with_function
-      t = TripleSet.new('?location omgeo:nearby(?Latitude, ?Longitude, "5km")')
+      t = TripleSet.new('?location omgeo:nearby(?Latitude ?Longitude "5km")')
       assert_equal('var', t.subject.type)
       assert_equal('location', t.subject.value)
       assert_equal('function', t.predicate.type)

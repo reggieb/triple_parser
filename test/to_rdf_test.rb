@@ -78,8 +78,9 @@ module TripleParser
     end
     
     def test_function
-      @triple = 'nearby(?Latitude, ?Longitude, "5km")'
+      @triple = 'omgeo:nearby(?Latitude ?Longitude "5km")'
       assert_triple
+      assert_equal('function', @third.type)
     end
     
     def test_dc_term

@@ -77,7 +77,7 @@ EOF
   
   def test_function
     load_triples <<EOF
-?location omgeo:nearby(?Latitude, ?Longitude, "5km")   
+?location omgeo:nearby(?Latitude ?Longitude "5km")   
 ?location omgeo:nearby(?Latitude ?Longitude "5km") . 
 EOF
     assert_first_last_match(@triples)

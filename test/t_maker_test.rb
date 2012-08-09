@@ -45,7 +45,7 @@ module TripleParser
     end
     
      def test_function
-      third = TMaker.brew('omgeo:nearby(?Latitude, ?Longitude, "5km")')
+      third = TMaker.brew('omgeo:nearby(?Latitude ?Longitude "5km")')
       assert_equal('function', third.type)
       assert_equal('omgeo:nearby', third.value)
       arguments = [TMaker.brew('?Latitude'), TMaker.brew('?Longitude'), TMaker.brew('"5km"')]

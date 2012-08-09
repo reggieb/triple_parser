@@ -109,7 +109,7 @@ module TripleParser
     
     def function
       arguments = @third.arguments.collect{|a| self.class.new(a)}
-      "#{@third.value}(#{arguments.join(', ')})"
+      "#{@third.value}(#{arguments.join(' ')})"
     end
     
     def var
