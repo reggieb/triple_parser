@@ -122,6 +122,15 @@ EOF
     assert_equal(first_triple, output.first)
     assert_equal(last_triple, output.last)
   end
+  
+  def test_input_as_array
+    input = [
+      '<http://demivee.com/8298>  rdf:type asset:Story',
+      '<http://demivee.com/8298> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.bbc.co.uk/ontologies/asset/Story> .'
+    ]
+    load_triples(input)
+    assert_first_last_match(@triples)
+  end
     
   def load_triples(input_text)
     TripleParser.input(input_text)

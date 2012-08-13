@@ -5,21 +5,31 @@ require_relative 'triple_parser/settings'
 
 
 module TripleParser
-  def self.input(text)
-    @text = text
+  def self.input(new_input)
+    @input = new_input
   end
   
   def self.triples
     @triples = Array.new
-    @text.each_line do |triple| 
-      next if /^\s*$/ =~ triple
-      @triples << TripleSet.new(triple)
+    case @input.class.to_s
+      when 'String'
+        @input.each_line do |triple| 
+          next if /^\s*$/ =~ triple
+          @triples << TripleSet.new(triple)
+        end
+      when 'Array'
+        @input.compact.each do |triple|
+          @triples << TripleSet.new(triple)
+        end
+    else
+      raise "Input format not recognised"
     end
+    
     return @triples
   end
   
-  def self.to_rdf(text)
-    @text = text
+  def self.to_rdf(input)
+    @input = input
     output = triples.collect do |t|
       [
         get_rdf_for(t.subject),
