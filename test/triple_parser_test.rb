@@ -22,7 +22,7 @@ EOF
   def test_string_definitions
     load_triples <<EOF
 id:9108fe02-0bbb-4ed9-890f-b454877ce12c domain:name xml:string:'Troops tighten grip on Taliban stronghold'
-<http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.bbc.co.uk/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://#{TripleParser::Settings.application_domain}/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>.
 EOF
     assert_first_last_match(@triples)
   end
@@ -30,7 +30,7 @@ EOF
   def test_regional_text_definitions
     load_triples <<EOF
 id:9108fe02-0bbb-4ed9-890f-b454877ce12c domain:name text:en:'Troops tighten grip on Taliban stronghold'
-<http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.bbc.co.uk/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"@en .
+<http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://#{TripleParser::Settings.application_domain}/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"@en .
 EOF
     assert_first_last_match(@triples)
   end
@@ -70,7 +70,7 @@ EOF
   def test_asset
     load_triples <<EOF
 <http://demivee.com/8298>  rdf:type asset:Story
-<http://demivee.com/8298> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.bbc.co.uk/ontologies/asset/Story>
+<http://demivee.com/8298> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://#{TripleParser::Settings.application_domain}/ontologies/asset/Story>
 EOF
     assert_first_last_match(@triples)
   end
@@ -95,7 +95,7 @@ EOF
     input = <<EOF
 <http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/NET/c4dm/event.owl#Event>.
 id:9108fe02-0bbb-4ed9-890f-b454877ce12c rdf:type owl:event:Event
-<http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://www.bbc.co.uk/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://#{TripleParser::Settings.application_domain}/ontologies/domain/name> "Troops tighten grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>.
 id:9108fe02-0bbb-4ed9-890f-b454877ce12c domain:name string:'Troops tighten grip on Taliban stronghold'  
 #{triple}
 EOF
@@ -110,7 +110,7 @@ EOF
 <http://meemm.edu/9600> <http://purl.org/dc/terms/created> "2012-08-08T03:51:41Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
 <http://meemm.edu/9600> <http://purl.org/dc/terms/subject> "lorem ipsum37952"@en .
 <http://meemm.edu/9600> <http://purl.org/dc/terms/identifier> "01255" .
-<http://meemm.edu/9600> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.bbc.co.uk/ontologies/asset/Story> .
+<http://meemm.edu/9600> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://#{TripleParser::Settings.application_domain}/ontologies/asset/Story> .
 <http://meemm.edu/9600> <http://purl.org/dc/terms/publisher> <> .
 <http://meemm.edu/9600> <http://purl.org/dc/terms/valid> "2012-08-08T03:51:41Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .    
 EOF
@@ -126,7 +126,7 @@ EOF
   def test_input_as_array
     input = [
       '<http://demivee.com/8298>  rdf:type asset:Story',
-      '<http://demivee.com/8298> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.bbc.co.uk/ontologies/asset/Story> .'
+      %Q{<http://demivee.com/8298> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://#{TripleParser::Settings.application_domain}/ontologies/asset/Story> .}
     ]
     load_triples(input)
     assert_first_last_match(@triples)

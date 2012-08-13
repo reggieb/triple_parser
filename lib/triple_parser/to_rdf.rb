@@ -104,7 +104,7 @@ module TripleParser
     end
     
     def asset
-      "<http://www.bbc.co.uk/ontologies/asset/#{@third.value}>"
+      "<http://#{Settings.application_domain}/ontologies/asset/#{@third.value}>"
     end
     
     def function

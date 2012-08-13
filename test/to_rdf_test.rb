@@ -94,7 +94,7 @@ module TripleParser
     end
     
     def test_asset
-      @triple = '<http://www.bbc.co.uk/ontologies/asset/Story>'
+      @triple = "<http://#{Settings.application_domain}/ontologies/asset/Story>"
       assert_triple
       assert_equal('asset', @third.type)
     end

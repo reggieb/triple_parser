@@ -1,7 +1,7 @@
 $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 
 require 'test/unit'
-require 'triple_parser/t_maker'
+require 'triple_parser'
 
 module TripleParser
 
@@ -92,7 +92,7 @@ module TripleParser
     end
 
     def test_bracketed_url_domain
-      url = 'http://www.bbc.co.uk/ontologies/domain/name'
+      url = %Q{http://#{TripleParser::Settings.application_domain}/ontologies/domain/name}
       bracketed_url = "<#{url}>"
       third = TMaker.brew(bracketed_url)
       assert_equal('domain', third.type)
@@ -172,7 +172,7 @@ module TripleParser
     def test_bracketed_pair_with_id_and_value
       type = 'id'
       value = '9108fe02-0bbb-4ed9-890f-b454877ce12c'
-      url = "http://www.bbc.co.uk/things/#{value}"
+      url = "http://#{TripleParser::Settings.application_domain}/things/#{value}"
       bracketed_url = "<#{url}##{type}>"
       third = TMaker.brew(bracketed_url)
       assert_equal(type, third.type)
@@ -213,7 +213,7 @@ module TripleParser
     end
     
     def test_bracketed_asset
-      bracketed_url = '<http://www.bbc.co.uk/ontologies/asset/Story>'
+      bracketed_url = "<http://#{TripleParser::Settings.application_domain}/ontologies/asset/Story>"
       third = TMaker.brew(bracketed_url)
       assert_equal('asset', third.type)
       assert_equal('Story', third.value)
