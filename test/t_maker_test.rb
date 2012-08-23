@@ -83,6 +83,20 @@ module TripleParser
       assert_equal('colon_separated', third.rdf_style)
     end
     
+    def test_pne
+      third = TMaker.brew('pne:Event')
+      assert_equal('pne', third.type)
+      assert_equal('Event', third.value)
+      assert_equal('colon_separated', third.rdf_style)      
+    end
+    
+    def test_bracketed_pne
+      third = TMaker.brew('<http://data.press.net/ontology/event/Event>')
+      assert_equal('pne', third.type)
+      assert_equal('Event', third.value)
+      assert_equal('bracketed_url', third.rdf_style)       
+    end
+    
     def test_bracketed_url_about
       url = '<http://data.press.net/ontology/tag/about>'
       third = TMaker.brew(url)

@@ -59,6 +59,15 @@ EOF
     assert_first_last_match(@triples)
   end
   
+  def test_pne
+    load_triples "
+<http://juicer.responsivenews.co.uk/events/2345> rdf:type pne:Event
+<http://juicer.responsivenews.co.uk/events/2345> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.press.net/ontology/event/Event>    
+    "  
+    
+   assert_first_last_match(@triples)
+  end
+  
   def test_latitude
     load_triples <<EOF
 resource:United_Kingdom geo-pos:lat ?Latitude  

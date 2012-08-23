@@ -77,6 +77,11 @@ module TripleParser
       assert_triple
     end
     
+    def test_pne
+      @triple = '<http://data.press.net/ontology/event/Event>'
+      assert_triple
+    end
+    
     def test_function
       @triple = 'omgeo:nearby(?Latitude ?Longitude "5km")'
       assert_triple

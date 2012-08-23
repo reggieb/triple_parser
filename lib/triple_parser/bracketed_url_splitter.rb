@@ -30,6 +30,7 @@ module TripleParser
     
     
     def type_value_from_bracketed_url
+            
       if text_after_hash_pattern =~ self
         type_value_from_text_after_hash_url
         
@@ -45,6 +46,9 @@ module TripleParser
       elsif asset_pattern =~ self
         type_value_for_asset
         
+      elsif pne_pattern =~ self
+        type_value_for_pne
+         
       else
         type_value_for_unknown_url
         
@@ -59,9 +63,7 @@ module TripleParser
       @after_hash ||= match(text_after_hash_pattern)[1] if match(text_after_hash_pattern)
     end
     
-    def type_value_from_text_after_hash_url
-      
-      
+    def type_value_from_text_after_hash_url 
       if after_hash == 'id'
         type_value_for_id_after_hash
 
@@ -132,7 +134,7 @@ module TripleParser
     end
     
     def ontology_url_pattern
-      /data\.press\.net\/ontology\/(?:\w+\/)+(\w+)/
+      /data\.press\.net\/ontology\/tag\/(\w+)/
     end
     
     def type_value_for_ontology
@@ -162,6 +164,17 @@ module TripleParser
         :type => 'asset',
         :value => match(asset_pattern)[1]
       }      
+    end
+    
+    def pne_pattern
+      /\/ontology\/event\/([a-zA-Z_]+)/
+    end
+    
+    def type_value_for_pne
+      {
+        :type => 'pne',
+        :value => match(pne_pattern)[1]
+      }
     end
     
     def type_value_for_unknown_url
