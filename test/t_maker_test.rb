@@ -44,7 +44,14 @@ module TripleParser
       assert_equal('colon_separated', third.rdf_style)
     end
     
-     def test_function
+    def test_quoted_string
+      third = TMaker.brew('xml:string:"This \"is\" a string"')
+      assert_equal('xml:string', third.type)
+      assert_equal('This \"is\" a string', third.value)
+      assert_equal('colon_separated', third.rdf_style)
+    end 
+    
+    def test_function
       third = TMaker.brew('omgeo:nearby(?Latitude ?Longitude "5km")')
       assert_equal('function', third.type)
       assert_equal('omgeo:nearby', third.value)
@@ -183,6 +190,18 @@ module TripleParser
       assert_equal(url, third.url)     
     end
     
+    def test_bracketed_pair_with_text_value_and_quoted_text
+      url = 'http://www.w3.org/2001/XMLSchema'
+      type = 'string'
+      value = 'Troops \"tighten\" grip on Taliban stronghold'
+      bracketed_url = "\"#{value}\"^^<#{url}##{type}>."
+      third = TMaker.brew(bracketed_url)
+      assert_equal('xml:string', third.type)
+      assert_equal(value, third.value)
+      assert_equal('bracketed_url', third.rdf_style)
+      assert_equal(url, third.url)     
+    end
+    
     def test_bracketed_pair_with_id_and_value
       type = 'id'
       value = '9108fe02-0bbb-4ed9-890f-b454877ce12c'
@@ -238,6 +257,13 @@ module TripleParser
       third = TMaker.brew('"Some text"@en')
       assert_equal('text:en', third.type)
       assert_equal('Some text', third.value)
+      assert_equal('regional_text', third.rdf_style)      
+    end
+    
+    def test_english_text
+      third = TMaker.brew('"Some \"Quoted\" text"@en')
+      assert_equal('text:en', third.type)
+      assert_equal('Some \"Quoted\" text', third.value)
       assert_equal('regional_text', third.rdf_style)      
     end
     

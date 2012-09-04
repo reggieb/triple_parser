@@ -35,6 +35,14 @@ EOF
     assert_first_last_match(@triples)
   end
   
+  def test_quoted_regional_text_definitions
+    load_triples <<EOF
+id:9108fe02-0bbb-4ed9-890f-b454877ce12c domain:name text:en:"Troops \"tighten\" grip on Taliban stronghold"
+<http://#{TripleParser::Settings.application_domain}/things/9108fe02-0bbb-4ed9-890f-b454877ce12c#id> <http://#{TripleParser::Settings.application_domain}/ontologies/domain/name> "Troops \"tighten\" grip on Taliban stronghold"@en .
+EOF
+    assert_first_last_match(@triples)
+  end
+  
   def test_interval_type
     load_triples <<EOF
 id:0237eb08-e4a5-463c-baaa-5a28f2b63707 rdf:type owl:timeline:Interval

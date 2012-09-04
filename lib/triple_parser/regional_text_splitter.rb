@@ -27,7 +27,7 @@ module TripleParser
     end
     
     def text
-      before_ampersand.gsub(/['"]/, "")
+      before_ampersand.gsub(/^['"]/, '').gsub(/['"]$/, '')
     end
     
     def after_ampersand

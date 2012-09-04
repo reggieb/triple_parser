@@ -47,6 +47,11 @@ module TripleParser
       assert_triple
     end
     
+    def test_xml_quoted_text
+      @triple = %q{"Troops \"tighten\" grip on Taliban stronghold"^^<http://www.w3.org/2001/XMLSchema#string>}
+      assert_triple
+    end
+    
     def test_domain_name
       @triple = "<http://#{Settings.application_domain}/ontologies/domain/name>"
       assert_triple
@@ -95,6 +100,11 @@ module TripleParser
     
     def test_regional_text
       @triple = '"Some text"@en'
+      assert_triple
+    end
+    
+    def test_regional_quoted_text
+      @triple = '"Some \"quoted\" text"@en'
       assert_triple
     end
     
