@@ -260,13 +260,19 @@ module TripleParser
       assert_equal('regional_text', third.rdf_style)      
     end
     
-    def test_english_text
+    def test_english_quoted_text
       third = TMaker.brew('"Some \"Quoted\" text"@en')
       assert_equal('text:en', third.type)
       assert_equal('Some \"Quoted\" text', third.value)
       assert_equal('regional_text', third.rdf_style)      
     end
     
+    def test_english_text_with_content_that_should_be_escaped
+      third = TMaker.brew('"Some "Quoted" text"@en')
+      assert_equal('text:en', third.type)
+      assert_equal('Some "Quoted" text', third.value)
+      assert_equal('regional_text', third.rdf_style)  
+    end
     
     def test_dc_terms
       third = TMaker.brew('dc:terms:subject')
