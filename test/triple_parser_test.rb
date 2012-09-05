@@ -120,6 +120,15 @@ EOF
     assert_equal(triple, output.last)
   end
   
+  def test_with_bracketed_url_containing_spaces
+    input = <<EOF
+<http://www.bbc.co.uk/news/science-environment-17390576> <http://data.press.net/ontology/tag/mentions> <http://dbpedia.org/resource/Doctor Strange>.    
+EOF
+    url_with_modified_space = '<http://dbpedia.org/resource/Doctor Strange>'
+    output = TripleParser.to_rdf(input)
+    assert_match(url_with_modified_space, output.first)
+  end
+  
   def test_actual
     triples = <<EOF
 <http://meemm.edu/9600> <http://purl.org/dc/terms/title> "lorem ipsum dolor sit amet44585"@en .

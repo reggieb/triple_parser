@@ -75,12 +75,14 @@ module TripleParser
     end
     
     def triple_spitting_pattern
+      triple_containing_bracketed_data = %q{<[^>]*>}
       triple_containing_single_quoted_text = %q{\S*\'.*\'\S*}
       triple_containing_double_quoted_text = %q{\S*\".*\"\S*}
       text_not_split_by_spaces = '\S*'
-      triple = [triple_containing_single_quoted_text, triple_containing_double_quoted_text, text_not_split_by_spaces].join('|')
+      triple = [triple_containing_bracketed_data, triple_containing_single_quoted_text, triple_containing_double_quoted_text, text_not_split_by_spaces].join('|')
       spaced_triples = Array.new(3, "(#{triple})").join('\s+')
-      Regexp.new(spaced_triples)
+      line_end = '[\s\.]*$'
+      Regexp.new(spaced_triples + line_end)
     end
     
     def spaces

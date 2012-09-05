@@ -2,7 +2,7 @@ require 'rake/gempackagetask'
 
 Gem::Specification.new do |s|
   s.name = 'triple_parser'
-  s.version = '0.1.11'
+  s.version = '0.1.12'
   s.authors = ['Rob Nichols']
   s.date = %q{2012-08-07}
   s.description = "Triple Parser - Parses RDF triples and converts them into standard format"
